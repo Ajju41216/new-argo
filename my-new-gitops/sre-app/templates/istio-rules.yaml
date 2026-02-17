@@ -62,3 +62,4 @@ spec:
         percentage:
           value: 100.0
         fixedDelay: 5s
+      timeout: 2s
