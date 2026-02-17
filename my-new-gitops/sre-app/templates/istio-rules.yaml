@@ -57,11 +57,9 @@ spec:
         host: app-svc
         subset: v2
       weight: 50
-    # Layer 1: The Problem (5s Delay)
     fault:
       delay:
         percentage:
           value: 100.0
         fixedDelay: 5s
-    # Layer 2: The Limit (2s Timeout)
     timeout: 2s
