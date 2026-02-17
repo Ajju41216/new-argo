@@ -51,21 +51,10 @@ spec:
   - app-gateway
   http:
   - route:
-    - destination:
-        host: app-svc
-        subset: v1
+    - destination: { host: app-svc, subset: v1 }
       weight: 50
-    - destination:
-        host: app-svc
-        subset: v2
+    - destination: { host: app-svc, subset: v2 }
       weight: 50
     fault:
-      delay:
-        percentage:
-          value: 100.0
-        fixedDelay: 5s
+      delay: { percentage: { value: 100.0 }, fixedDelay: 5s }
     timeout: 2s
-    retries:
-      attempts: 3
-      perTryTimeout: 2s
-      retryOn: gateway-error,5xx,connect-failure
