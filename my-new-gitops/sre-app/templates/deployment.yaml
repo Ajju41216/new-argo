@@ -1,18 +1,26 @@
+{{- range $version := (list "v1" "v2") }}
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: simple-app
-  namespace: {{ .Release.Namespace }}
+  name: app-{{ $version }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    app: my-app
+    version: {{ $version }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: test
+      app: my-app
+      version: {{ $version }}
   template:
     metadata:
       labels:
-        app: test
+        app: my-app
+        version: {{ $version }}
     spec:
       containers:
-      - name: web
+      - name: app
         image: nginx
+{{- end }}
