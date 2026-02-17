@@ -65,3 +65,7 @@ spec:
           value: 100.0
         fixedDelay: 5s
     timeout: 2s
+    retries:
+      attempts: 3
+      perTryTimeout: 2s
+      retryOn: gateway-error,5xx,connect-failure
