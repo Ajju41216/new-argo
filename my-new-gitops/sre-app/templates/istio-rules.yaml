@@ -16,13 +16,19 @@ spec:
     - "*"
 ---
 # 2. The DestinationRule (The Circuit Breaker)
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.io/v1alpha3
 kind: DestinationRule
 metadata:
   name: app-dr
-  namespace: {{ .Release.Namespace }}
+  namespace: lab-sre
 spec:
   host: app-svc
+  trafficPolicy:
+    outlierDetection:
+      consecutive5xxErrors: 1
+      interval: 10s
+      baseEjectionTime: 30s
+      maxEjectionPercent: 100
   subsets:
   - name: v1
     labels:
@@ -30,11 +36,6 @@ spec:
   - name: v2
     labels:
       version: v2
-    trafficPolicy:
-      outlierDetection:
-        consecutive5xxErrors: 1
-        interval: 1s
-        baseEjectionTime: 30s
 ---
 # 3. The VirtualService (Canary, Timeout, & Retries)
 apiVersion: networking.istio.io/v1alpha3
