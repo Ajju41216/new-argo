@@ -16,7 +16,7 @@ spec:
     - "*"
 ---
 # 2. The DestinationRule (The Circuit Breaker)
-apiVersion: networking.io/v1alpha3
+apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
   name: app-dr
@@ -26,8 +26,9 @@ spec:
   trafficPolicy:
     outlierDetection:
       consecutive5xxErrors: 1
-      interval: 10s
-      baseEjectionTime: 30s
+      consecutiveGatewayErrors: 1   # This catches the 504 Timeouts specifically
+      interval: 1s                  # Check every second
+      baseEjectionTime: 3m          # Eject for longer so we can see it in Grafana
       maxEjectionPercent: 100
   subsets:
   - name: v1
