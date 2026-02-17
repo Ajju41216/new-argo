@@ -37,7 +37,7 @@ spec:
         baseEjectionTime: 30s
 ---
 # 3. The VirtualService (Canary, Timeout, & Retries)
-apiVersion: networking.istio.io/v1alpha3
+piVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: app-vs
@@ -57,9 +57,11 @@ spec:
         host: app-svc
         subset: v2
       weight: 50
+    # Layer 1: The Problem (5s Delay)
     fault:
       delay:
         percentage:
           value: 100.0
         fixedDelay: 5s
+    # Layer 2: The Limit (2s Timeout)
     timeout: 2s
